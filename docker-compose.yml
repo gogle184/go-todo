@@ -1,0 +1,53 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+    ports:
+      - 3000:3000
+      - 3001:3001 # for hmr
+      - 9229:9229 # for debug
+    depends_on:
+      - backend
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    environment:
+      - NODE_ENV=development
+      - BACKEND_API_URL=${ENDPOINT}
+      - API_VERSION=${API_VERSION}
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:17.4
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - .pgpass:/root/.pgpass
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+volumes:
+  pgdata:
