@@ -14,7 +14,7 @@ b:
 	docker compose exec -it backend bash
 
 f:
-	docker compose exec -it frontend bash
+	docker compose exec -it frontend sh
 
 # ビルドせずパッケージをインストール
 modb:
@@ -22,6 +22,9 @@ modb:
 
 modf:
 	docker compose run --rm frontend npm install
+
+fixf:
+	docker compose run --rm frontend ash -c "npm run fix"
 
 # 開発環境構築
 init:
