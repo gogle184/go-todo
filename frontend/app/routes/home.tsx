@@ -1,4 +1,4 @@
-import { Welcome } from "../welcome/welcome";
+import { TodoList } from "../components/Todo";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -9,5 +9,10 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-	return <Welcome />;
+	return (
+		<div className="container mx-auto px-4">
+			<h1 className="text-2xl font-bold text-center my-8">TODOアプリ</h1>
+			<TodoList />
+		</div>
+	);
 }

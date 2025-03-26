@@ -31,7 +31,13 @@ export default ({ mode, command }: { mode: string; command: string }) => {
 			strictPort: true,
 			host: true,
 			port: Number(process.env.VIRTUAL_PORT) || 3000,
-			proxy: {},
+			proxy: {
+				'/api': {
+					target: 'http://backend:8080',
+					changeOrigin: true,
+					secure: false,
+				}
+			},
 			hmr: {
 				port: Number(process.env.HMR_PORT) || 3001,
 			},
